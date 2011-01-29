@@ -138,6 +138,21 @@ describe "RailsAdmin Config DSL List Section" do
       RailsAdmin::Config.reset Fan
     end
 
+    it "should delegate the label option to the ActiveModel API" do
+      RailsAdmin.config Fan do
+        list do
+          field :name
+        end
+      end
+      get rails_admin_list_path(:model_name => "fan")
+      response.should have_tag(".grid thead th") do |elements|
+        elements[1].should contain("HIS NAME")
+      end
+
+      # Reset
+      RailsAdmin::Config.reset Fan
+    end
+
     it "should be renameable" do
       RailsAdmin.config Fan do
         list do
