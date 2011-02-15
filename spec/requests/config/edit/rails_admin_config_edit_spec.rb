@@ -413,7 +413,6 @@ describe "RailsAdmin Config DSL Edit Section" do
       get rails_admin_new_path(:model_name => "user")
       response.should have_tag("input#users_avatar")
     end
-
   end
 
   describe "ColorPicker Support" do
