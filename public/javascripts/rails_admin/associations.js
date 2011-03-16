@@ -1,28 +1,47 @@
-var buffer = []
+var associations_buffer = []
 document.observe("dom:loaded", function() {
-
   var counter = 0;
 
   $$(".firstSelect").each(function(elem){
     elem.writeAttribute('ref',counter);
-    buffer[counter] = []
+    associations_buffer[counter] = []
 
     elem.childElements().each(function(e){
-      buffer[counter].push([e.innerHTML,e.readAttribute('value')])
+      associations_buffer[counter].push([e.innerHTML,e.readAttribute('value')])
     })
 
     counter += 1;
   })
 
   $$(".searchMany").each(function(elem){
+    Event.observe(elem,'focus',function(e){
+      var used = e.target.readAttribute('used');
+
+      if(used=="0"){
+        e.target.setStyle({color:"#000"});
+        e.target.writeAttribute('used','1');
+        e.target.value = ""
+      }
+    })
+
+    Event.observe(elem,'blur',function(e){
+      var text = e.target.value;
+      var used = e.target.readAttribute('used');
+      var assoc = e.target.readAttribute('ref');
+
+      if(text.length == 0){
+        e.target.setStyle({color:"#AAA"});
+        e.target.writeAttribute('used','0');
+        e.target.value = "Search " + assoc
+      }
+    })
 
     Event.observe(elem,'keyup',function(e){
-      var select = elem.parentNode.parentNode.childElements()[2].childElements()[0];
-      var select_two = elem.parentNode.parentNode.childElements()[2].childElements()[3]
+      var select = elem.parentNode.parentNode.childElements()[1].childElements()[0];
+      var select_two = elem.parentNode.parentNode.childElements()[1].childElements()[3]
       var aux = []
       var ref = select.readAttribute('ref')
       var text = e.target.value.toLowerCase();
-
       function already_selected(value){
         var selected;
         select_two.childElements().each(function(e){
@@ -31,8 +50,7 @@ document.observe("dom:loaded", function() {
         })
         return(selected);
       }
-
-      buffer[ref].each(function(ev){
+      associations_buffer[ref].each(function(ev){
         if(ev[0].toLowerCase().indexOf(text)!=-1){
           aux.push(ev)
         }
@@ -48,19 +66,17 @@ document.observe("dom:loaded", function() {
           select.insert({bottom:option});
         }
       })
-
     })
-  })
+  });
 
   $$(".addAssoc").each(function(elem){
-
-    var assocName = elem.parentNode.parentNode.childElements()[4].childElements()[0].readAttribute('name');
+    var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
 
     Event.observe(elem,'click',function(e){
       var parentDiv = e.findElement('a').parentNode.parentNode;
-      var hiddenFields = parentDiv.childElements()[4];
-      var select = parentDiv.childElements()[2].childElements()[0];
-      var select_two = parentDiv.childElements()[2].childElements()[3]
+      var hiddenFields = parentDiv.childElements()[3];
+      var select = parentDiv.childElements()[1].childElements()[0];
+      var select_two = parentDiv.childElements()[1].childElements()[3]
       var counter = select.readAttribute("ref");
 
       select.childElements().each(function(ev){
@@ -80,13 +96,13 @@ document.observe("dom:loaded", function() {
 
   $$(".removeAssoc").each(function(elem){
 
-    var assocName = elem.parentNode.parentNode.childElements()[4].childElements()[0].readAttribute('name');
+    var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
 
     Event.observe(elem,'click',function(e){
       var parentDiv = e.findElement('a').parentNode.parentNode;
-      var hiddenFields = parentDiv.childElements()[4];
-      var select = parentDiv.childElements()[2].childElements()[0];
-      var select_two = parentDiv.childElements()[2].childElements()[3]
+      var hiddenFields = parentDiv.childElements()[3];
+      var select = parentDiv.childElements()[1].childElements()[0];
+      var select_two = parentDiv.childElements()[1].childElements()[3]
       var counter = select.readAttribute("ref");
 
       select_two.childElements().each(function(ev){
@@ -115,14 +131,14 @@ document.observe("dom:loaded", function() {
 
   $$(".addAllAssoc").each(function(elem){
 
-    var assocName = elem.parentNode.parentNode.childElements()[4].childElements()[0].readAttribute('name');
+    var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
 
     Event.observe(elem,'click',function(e){
 
       var parentDiv = e.findElement('a').parentNode.parentNode;
-      var hiddenFields = parentDiv.childElements()[4];
-      var select = parentDiv.childElements()[2].childElements()[0];
-      var select_two = parentDiv.childElements()[2].childElements()[3]
+      var hiddenFields = parentDiv.childElements()[3];
+      var select = parentDiv.childElements()[1].childElements()[0];
+      var select_two = parentDiv.childElements()[1].childElements()[3]
 
       select.childElements().each(function(ev){
         var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
@@ -134,20 +150,20 @@ document.observe("dom:loaded", function() {
       })
 
       var counter = select.readAttribute("ref");
-      buffer[counter] = []
+      associations_buffer[counter] = []
     })
   })
 
   $$(".clearAssoc").each(function(elem){
 
-    var assocName = elem.parentNode.parentNode.childElements()[4].childElements()[0].readAttribute('name');
+    var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
 
     Event.observe(elem,'click',function(e){
 
       var parentDiv = e.findElement('a').parentNode.parentNode;
-      var hiddenFields = parentDiv.childElements()[4];
-      var select = parentDiv.childElements()[2].childElements()[0];
-      var select_two = parentDiv.childElements()[2].childElements()[3]
+      var hiddenFields = parentDiv.childElements()[3];
+      var select = parentDiv.childElements()[1].childElements()[0];
+      var select_two = parentDiv.childElements()[1].childElements()[3]
 
       select_two.childElements().each(function(ev){
         var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
@@ -165,34 +181,10 @@ document.observe("dom:loaded", function() {
       }
 
       var counter = select.readAttribute("ref");
-      buffer[counter] = []
+      associations_buffer[counter] = []
       select.childElements().each(function(e){
-        buffer[counter].push([e.innerHTML,e.readAttribute('value')])
+        associations_buffer[counter].push([e.innerHTML,e.readAttribute('value')])
       })
-    })
-  })
-
-  $$(".searchMany").each(function(elem){
-    Event.observe(elem,'focus',function(e){
-      var used = e.target.readAttribute('used');
-
-      if(used=="0"){
-        e.target.setStyle({color:"#000"});
-        e.target.writeAttribute('used','1');
-        e.target.value = ""
-      }
-    })
-
-    Event.observe(elem,'blur',function(e){
-      var text = e.target.value;
-      var used = e.target.readAttribute('used');
-      var assoc = e.target.readAttribute('ref');
-
-      if(text.length == 0){
-        e.target.setStyle({color:"#AAA"});
-        e.target.writeAttribute('used','0');
-        e.target.value = "Search " + assoc
-      }
     })
   })
 
