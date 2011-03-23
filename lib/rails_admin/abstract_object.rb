@@ -47,8 +47,22 @@
     end
 
     def update_associations(association, ids = [])
+      klass = self.class
       associated_model = RailsAdmin::AbstractModel.new(association[:child_model])
-      object.send "#{association[:name]}=", ids.collect{|id| associated_model.get(id)}.compact
+      if klass.send("#{association[:name]}_with_role?")
+        through_model = (klass.class_name + association[:name].to_s.classify).constantize
+        tm_assoc_name = association[:child_model].to_s.underscore
+        k_name = klass.class_name.underscore
+        values = ids.map{|str| str.split(':')}.collect do |pair|
+          if assoc = associated_model.get(pair[0]) and role = Taxonomy.find_by_id(pair[1])
+            fields = "#{k_name}_id_and_#{tm_assoc_name}_id_and_#{tm_assoc_name}_role_id"
+            through_model.send "find_or_create_by_#{fields}", self.id, pair[0], pair[1]
+          end
+        end.compact
+        object.send "#{k_name}_#{association[:name]}=", values
+      else
+        object.send "#{association[:name]}=", ids.collect{|id| associated_model.get(id)}.compact
+      end
       object.save
     end
 
