@@ -2,15 +2,76 @@ var associations_buffer = []
 document.observe("dom:loaded", function() {
   var counter = 0;
 
+  function add_options_selected(assocName, parentDiv) {
+    var hiddenFields = parentDiv.childElements()[3];
+    var select = parentDiv.childElements()[1].childElements()[0];
+    var select_two = parentDiv.childElements()[1].childElements()[3]
+    select.childElements().each(function(ev){
+      if(ev.selected == true){
+        var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
+        select_two.insert({bottom:option});
+        Event.observe(option,'dblclick', function(opt){
+          remove_options_selected(assocName, opt.findElement('option').parentNode.parentNode.parentNode);
+        });
+        ev.remove()
+
+        var hidden = new Element('input',{"name":assocName,"type":"hidden","value":ev.readAttribute('value')})
+        hiddenFields.insert({bottom:hidden});
+      }
+    })
+  };
+  
+  function remove_options_selected(assocName,parentDiv){
+    var hiddenFields = parentDiv.childElements()[3];
+    var select = parentDiv.childElements()[1].childElements()[0];
+    var select_two = parentDiv.childElements()[1].childElements()[3]
+
+    select_two.childElements().each(function(ev){
+      if(ev.selected == true){
+        var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
+        select.insert({bottom:option});
+        Event.observe(option,'dblclick', function(opt){
+          add_options_selected(assocName, opt.findElement('option').parentNode.parentNode.parentNode);
+        });
+        ev.remove()
+
+        hiddenFields.childElements().each(function(o){
+          var hiddenValue = o.value;
+          if(hiddenValue==ev.readAttribute('value')){
+            o.remove()
+          }
+        })
+
+        if (!hiddenFields.childElements().length) {
+          var dummyField = new Element('input', {"type": "hidden", "name": assocName})
+          hiddenFields.insert({bottom: dummyField});
+        }
+      }
+    })
+
+  };
+
   $$(".firstSelect").each(function(elem){
+    var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
     elem.writeAttribute('ref',counter);
     associations_buffer[counter] = []
-
     elem.childElements().each(function(e){
       associations_buffer[counter].push([e.innerHTML,e.readAttribute('value')])
+      Event.observe(e,'dblclick', function(opt){
+        add_options_selected(assocName, opt.findElement('option').parentNode.parentNode.parentNode);
+      });
     })
 
     counter += 1;
+  })
+
+  $$(".secondSelect").each(function(elem){
+    var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
+    elem.childElements().each(function(e){
+      Event.observe(e,'dblclick', function(opt){
+        remove_options_selected(assocName, opt.findElement('option').parentNode.parentNode.parentNode);
+      });
+    })
   })
 
   $$(".searchMany").each(function(elem){
@@ -71,26 +132,8 @@ document.observe("dom:loaded", function() {
 
   $$(".addAssoc").each(function(elem){
     var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
-
     Event.observe(elem,'click',function(e){
-      var parentDiv = e.findElement('a').parentNode.parentNode;
-      var hiddenFields = parentDiv.childElements()[3];
-      var select = parentDiv.childElements()[1].childElements()[0];
-      var select_two = parentDiv.childElements()[1].childElements()[3]
-      var counter = select.readAttribute("ref");
-
-      select.childElements().each(function(ev){
-        if(ev.selected == true){
-
-          var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
-          select_two.insert({bottom:option});
-          ev.remove()
-
-          var hidden = new Element('input',{"name":assocName,"type":"hidden","value":ev.readAttribute('value')})
-          hiddenFields.insert({bottom:hidden});
-        }
-
-      })
+      add_options_selected(assocName, e.findElement('a').parentNode.parentNode);
     })
   })
 
@@ -99,33 +142,7 @@ document.observe("dom:loaded", function() {
     var assocName = elem.parentNode.parentNode.childElements()[3].childElements()[0].readAttribute('name');
 
     Event.observe(elem,'click',function(e){
-      var parentDiv = e.findElement('a').parentNode.parentNode;
-      var hiddenFields = parentDiv.childElements()[3];
-      var select = parentDiv.childElements()[1].childElements()[0];
-      var select_two = parentDiv.childElements()[1].childElements()[3]
-      var counter = select.readAttribute("ref");
-
-      select_two.childElements().each(function(ev){
-        if(ev.selected == true){
-
-          var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
-          select.insert({bottom:option});
-          ev.remove()
-
-          hiddenFields.childElements().each(function(o){
-            var hiddenValue = o.value;
-            if(hiddenValue==ev.readAttribute('value')){
-              o.remove()
-            }
-          })
-
-          if (!hiddenFields.childElements().length) {
-            var dummyField = new Element('input', {"type": "hidden", "name": assocName})
-            hiddenFields.insert({bottom: dummyField});
-          }
-        }
-
-      })
+      remove_options_selected(assocName, e.findElement('a').parentNode.parentNode);
     })
   })
 
@@ -143,6 +160,9 @@ document.observe("dom:loaded", function() {
       select.childElements().each(function(ev){
         var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
         select_two.insert({bottom:option});
+        Event.observe(option,'dblclick', function(opt){
+          remove_options_selected(assocName, opt.findElement('option').parentNode.parentNode.parentNode);
+        });
         ev.remove()
 
         var hidden = new Element('input',{"name":assocName,"type":"hidden","value":ev.readAttribute('value')})
@@ -166,6 +186,9 @@ document.observe("dom:loaded", function() {
       select_two.childElements().each(function(ev){
         var option = new Element('option',{"value":ev.readAttribute('value')}).update(ev.innerHTML)
         select.insert({bottom:option});
+        Event.observe(option,'dblclick', function(opt){
+          add_options_selected(assocName, opt.findElement('option').parentNode.parentNode.parentNode);
+        });
         ev.remove()
       })
 
