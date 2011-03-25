@@ -102,7 +102,22 @@ document.observe("dom:loaded", function() {
       var select_two = elem.parentNode.parentNode.childElements()[1].childElements()[3]
       var aux = []
       var ref = select.readAttribute('ref')
-      var text = e.target.value.toLowerCase();
+      var text = e.target.value.toLowerCase().
+        replace(/[aáäâà]/g,'[aáäâà]').
+        replace(/[eéëêè]/g,'[eéëêè]').
+        replace(/[iíïîì]/g,'[iíïîì]').
+        replace(/[oóöôò]/g,'[oóöôò]').
+        replace(/[uúüûù]/g,'[uúüûù]');
+      var re = new RegExp(text, 'i');
+
+      associations_buffer[ref].each(function(ev){
+        if(re.test(ev[0])) aux.push(ev);
+      })
+
+      select.childElements().each(function(ev){
+        ev.remove();
+      })
+
       function already_selected(value){
         var selected;
         select_two.childElements().each(function(e){
@@ -111,15 +126,6 @@ document.observe("dom:loaded", function() {
         })
         return(selected);
       }
-      associations_buffer[ref].each(function(ev){
-        if(ev[0].toLowerCase().indexOf(text)!=-1){
-          aux.push(ev)
-        }
-      })
-
-      select.childElements().each(function(ev){
-        ev.remove();
-      })
 
       aux.each(function(ev){
         if(!already_selected(ev[1])){
