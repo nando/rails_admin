@@ -149,8 +149,6 @@ document.observe("dom:loaded", function() {
         hiddenFields.insert({bottom:hidden});
       })
 
-      var counter = select.readAttribute("ref");
-      associations_buffer[counter] = []
     })
   })
 
@@ -180,11 +178,6 @@ document.observe("dom:loaded", function() {
         hiddenFields.insert({bottom: dummyField});
       }
 
-      var counter = select.readAttribute("ref");
-      associations_buffer[counter] = []
-      select.childElements().each(function(e){
-        associations_buffer[counter].push([e.innerHTML,e.readAttribute('value')])
-      })
     })
   })
 
