@@ -1,7 +1,7 @@
 module RailsAdmin
   class MainController < RailsAdmin::ApplicationController
     before_filter :get_model, :except => [:index]
-    before_filter :get_object, :only => [:edit, :update, :delete, :destroy]
+    before_filter :get_object, :only => [:show, :edit, :update, :delete, :destroy]
     before_filter :get_bulk_objects, :only => [:bulk_delete, :bulk_destroy]
     before_filter :get_attributes, :only => [:create, :update]
     before_filter :check_for_cancel, :only => [:create, :update, :destroy, :bulk_destroy]
@@ -213,16 +213,15 @@ module RailsAdmin
       param = @abstract_model.to_param
       pretty_name = @model_config.update.label
       action = params[:action]
-
+      flash[:notice] = t("admin.flash.successful", :name => pretty_name, :action => t("admin.actions.#{action}d"))
       if params[:_add_another]
-        flash[:notice] = t("admin.flash.successful", :name => pretty_name, :action => t("admin.actions.#{action}d"))
         redirect_to rails_admin_new_path(:model_name => param)
       elsif params[:_add_edit]
-        flash[:notice] = t("admin.flash.successful", :name => pretty_name, :action => t("admin.actions.#{action}d"))
         redirect_to rails_admin_edit_path(:model_name => param, :id => @object.id)
-      else
-        flash[:notice] = t("admin.flash.successful", :name => pretty_name, :action => t("admin.actions.#{action}d"))
+      elsif params[:_view_index]
         redirect_to rails_admin_list_path(:model_name => param)
+      else
+        redirect_to rails_admin_show_path(:model_name => param, :id => @object.id)
       end
     end
 
