@@ -1,0 +1,136 @@
+<p class="hidden">Columna derecha</p>
+<div id="content-right2">
+<div id="actividad">
+<p class="titulo">Fichas visitadas</p>
+<p class="campoabierto"><a href="#">Personas (3)</a></p>
+<p><a href="#">John Doe</a><br/>
+<a href="#">Nicasio Gallego</a><br/>
+<a href="#">Felipe González</a></p>
+<p><a href="#">Noticias (5)</a></p>
+<p class="elementovacio"><a href="#">Asociaciones (0)</a></p>
+<p><a href="#">Organizaciones (1)</a></p>
+<p><a href="#">Informes (10)</a></p>
+<p><a href="#">Instrumentos jurídicos (2)</a></p>
+<p class="elementovacio"><a href="#">Actividades (0)</a></p>
+</div>     
+
+</div><!--content-right-->
+
+<p class="hidden" id="ancla-contenidos">Contenidos</p>
+
+<div id="content-left">
+  <div id="ficha">
+  
+    <div id="tipoficha"><%= @object.category.name %></div>
+    <div id="titficha"><%= @object.name %><%= " (#{@object.acronym})" if @object.respond_to?(:acronym) %></div>
+  
+    <hr/>
+  
+    <p class="seccion">Datos básicos</p>
+  
+    <%= image_tag @object.image.url(:medium) if @object.image %>
+  
+    <p><strong>Datos de referencia:</strong></p>
+    <p>Secretaría de Naciones Unidas, 345 Park Avenue South
+    Nueva York, NY 10017, Estados Unidos.
+    Tfno. 212 963 4475</p>
+    <p><strong>Representación institucional:</strong></p>
+    <p>Annan, Kofi Atta (Secretario/a General)
+    Año de creación:
+    1945</p>
+    <p><strong>Escenarios:</strong></p>
+    <p>Mundial</p>
+    <p><strong>Tipo de organización:</strong></p>
+    <p>Organismos internacionales</p>
+    <p><strong>Idiomas:</strong></p>
+    <p>Castellano ; Francés ; Inglés ; Otros
+    <p><strong>Secciones en las que se estructura la web:</strong></p>
+    <p>Objetivos de desarrollo de las Naciones Unidas para el Milenio, Centro de Noticias de la ONU, Acerca de la ONU, Órganos principales, Conferencias y Eventos, Estados Miembros, Presidente de la Asamblea General, Secretario General, Medidas de la ONU contra el terrorismo, Temas del Programa, La sociedad civil/las empresas, Transmisiones dela ONU, El Ciberús escolar</p>
+    <p><strong>Materias:</strong></p>
+    <p>Derechos humanos ; Medio ambiente ; Museo Sáhara ; Paz </p>
+  
+    <p class="seccion">Descripción</p>
+  
+    <p><strong>Surgimiento:</strong></p>
+    <p>La Organización de Naciones Unidas surgió en 1945 como una organización internacional que pretendía velar por el mantenimiento de la paz y seguridad internacional. Tras las dramáticas experiencias de las dos guerras Mundiales, vividas durante la primera mitad del Siglo XX, se vio la necesidad de crear un organismo que fuera el garante de la paz mundial en un planeta dividido en bloques.</p>
+    <p><strong>Descripción:</strong></p>
+    <p>La Organización de Naciones Unidas es un organismo mundial e intergubernamental, creado tras la Segunda Guerra Mundial, que sucedió a la Sociedad de Naciones en la función de velar por garantizar la paz y la seguridad internacional con el fin de que los horrores de las guerras mundiales no volvieran a vivirse. Los países que firman la Carta se comprometen a crear las condiciones necesarias para lograr la tan ansiada paz y seguridad. La Carta de Naciones Unidas no permite a este organismo intervenir en asuntos de la jurisdicción interna de los Estados.</p>
+    <p>Durante su vida esta organización, ya cincuentenaria, se ha encargado de promover el desarrollo pleno de los derechos humanos en todo el mundo.</p>
+    <p><strong>Objetivos:</strong></p>
+    - Mantener la paz y seguridad internacional.
+    - Proteger el medio ambiente.
+    - Promover el desarrollo de los derechos humanos y las libertades fundamentales para todos las personas.
+    <p><strong>Actividades y resultados:</strong></p>
+    <p>La Organización de Naciones Unidas ha logrado aunar en un organismo a la mayoría de los países que forman la comunidad internacional.</p>
+    <p>La ONU ha contribuido a mantener la paz y la seguridad internacional.</p>
+    <p>Ha promovido la cooperación internacional para lograr el desarrollo social, económico y cultural de todos los pueblos.</p>
+    <p><strong>Ámbito científico:</strong></p>
+    <p>Acción social ; Adopción de resoluciones ; Asesoría ; Campañas de sensibilización ; Comunicación ; Cooperación financiera ; Decisora ; Política ; Vigilancia </p>
+  
+    <p class="seccion">Actualidad</p>
+  
+    <p><strong>Cursos:</strong></p>
+    <ul>
+      <li>Seminario para el fomento de unos medios de comunicación independientes y pluralistas (responsable)</li>
+    </ul>
+  
+    <p><strong>Actividades y Congresos:</strong></p>
+    <ul>
+      <li><a href="#">Año Internacional de la Mujer (promotora)</a></li>
+      <li><a href="#">Año Internacional de las Montañas 2002: Todos somos gentes de montaña (promotora)</a></li>
+      <li><a href="#">Año Internacional del Agua Dulce 2003 (responsable)</a></li>
+      <li><a href="#">Beijing + 5 Mujeres 2000: Igualdad de género, desarrollo y paz para el siglo XXI (responsable)</a></li>
+      <li><a href="#">Campaña del Milenio: voces contra la pobreza (responsable)</a></li>
+      <li><a href="#">Conferencia de Cambio Climático Barcelona 2009 (convocante)</a></li>
+      <li><a href="#">Conferencia de Examen de Durban (convocante)</a></li>
+      <li><a href="#">Conferencia de las Naciones Unidas sobre Medio Humano (convocante)</a></li>
+      <li><a href="#">Conferencia Diplomática de Plenipotenciarios de las Naciones Unidas (responsable)</a></li>
+      <li><a href="#">Conferencia Internacional de Seguimiento sobre la Financiación para el Desarrollo (apoya)</a></li>
+      <li><a href="#">Conferencia internacional sobre la financiación para el desarrollo (patrocinadora)</a></li>
+      <li><a href="#">Conferencia Internacional sobre la Población y el Desarrollo (responsable)</a></li>
+      <li><a href="#">Conferencia Mundial de Naciones Unidas Contra el Racismo, la Discriminación Racial, la Xenofobia y Otras Formas de Intolerancia (responsable)</a></li>
+      <li><a href="#">Conferencia Mundial sobre Educación para Todos (EPT) (convocante)</a></li>
+      <li><a href="#">Conferencia Mundial sobre la Reducción de Desastres Naturales. 1994 (responsable)</a></li>
+      <li><a href="#">Conferencia Mundial sobre la Reducción de Desastres Naturales. 2005 (responsable)</a></li>
+      <li><a href="#">Conferencia política de alto nivel para la firma de la Convención de las Naciones Unidas contra la delincuencia organizada transnacional (responsable)</a></li>
+      <li><a href="#">COP - 12: XII Conferencia de las partes de la Convención Marco sobre Cambio Climático (responsable)</a></li>
+      <li><a href="#">COP - 14 XIV Conferencia de Cambio Climático de las Naciones Unidas (convocante)</a></li>
+      <li><a href="#">COP - 15. XV Conferencia de las Partes de la Convención Marco de las Naciones Unidas sobre el Cambio Climático (responsable)</a></li>
+      <li><a href="#">COP - 16. XVI Conferencia de las Partes de la Convención Marco de las Naciones Unidas sobre el Cambio Climático (responsable)</a></li>
+      <li><a href="#">COP - 9: IX Conferencia de las Partes del Convenio sobre la diversidad biológica (convocante)</a></li>
+      <li><a href="#">Cumbre del Milenio (responsable)</a></li>
+      <li><a href="#">Día Internacional de la Mujer 2008 (responsable)</a></li>
+      <li><a href="#">Día Internacional de la Mujer 2009 (responsable)</a></li>
+      <li><a href="#">Día Internacional de la Mujer 2010 (responsable)</a></li>
+      <li><a href="#">Día Internacional de las mujeres rurales. 2009 (responsable)</a></li>
+      <li><a href="#">Día Internacional de las mujeres rurales. 2010 (responsable)</a></li>
+      <li><a href="#">Día Internacional de lucha contra Racismo y la Xenofobia 2008 (responsable)</a></li>
+      <li><a href="#">Día Internacional de lucha contra Racismo y la Xenofobia 2009 (responsable)</a></li>
+      <li><a href="#">Día Internacional de Reflexión sobre el Genocidio cometido en 1994 en Rwanda (aprueba)</a></li>
+      <li><a href="#">Día Internacional para la Erradicación de la Pobreza 2007 (responsable)</a></li>
+      <li><a href="#">Día Internacional para la Erradicación de la Pobreza 2008 (responsable)</a></li>
+      <li><a href="#">Examen Quinquenal de la Aplicación de la Declaración y Programa de Acción de Viena (Marzo a Diciembre 1998) (responsable)</a></li>
+      <li><a href="#">Foro Consultivo Internacional sobre Educación para Todos (apoya)</a></li>
+      <li><a href="#">Foro Mundial sobre la Educación (apoya)</a></li>
+      <li><a href="#">Global Forum on Migration and Development (responsable)</a></li>
+      <li><a href="#">I Asamblea Mundial sobre el Envejecimiento (convocante)</a></li>
+      <li><a href="#">I Conferencia mundial contra el racismo, la discriminación racial, la xenofobia y las formas conexas de intolerancia (auspicia)</a></li>
+      <li><a href="#">I Conferencia Mundial sobre la Mujer (responsable)</a></li>
+      <li><a href="#">II Asamblea Mundial sobre Envejecimiento (convocante)</a></li>
+      <li><a href="#">II Conferencia mundial contra el racismo, la discriminación racial, la xenofobia y las formas conexas de intolerancia (responsable)</a></li>
+      <li><a href="#">II Conferencia mundial para combatir el racismo y la discriminación racial (responsable)</a></li>
+      <li><a href="#">II Conferencia Mundial sobre la Mujer (responsable)</a></li>
+      <li><a href="#">III Conferencia Mundial sobre la Mujer (responsable)</a></li>
+      <li><a href="#">III Congreso Mundial de Mujeres Rurales (colaboradora)</a></li>
+      <li><a href="#">IV Conferencia Mundial sobre la Mujer (responsable)</a></li>
+      <li><a href="#">Reunión de alto nivel sobre el SIDA de 2008 (convocante)</a></li>
+      <li><a href="#">VI Cumbre Mundial (responsable)</a></li>
+      <li><a href="#">VII Congreso de las Naciones Unidas sobre prevención del delito y tratamiento del delincuente (aprueba)</a></li>
+      <li><a href="#">VIII Congreso de la Organizacion de las Naciones Unidas sobre prevención del delito y tratamiento del delincuente (aprueba)</a></li>
+      <li><a href="#">XII Congreso de las Naciones Unidas sobre Prevención del Delito y Justicia Penal (responsable)</a></li>
+      <li><a href="#">XIX Congreso Mundial de mujeres periodistas y escritoras: "Hacia un nuevo paradigma comunicacional en la era digital. Los desafíos de la equidad" (patrocinadora)</a></li>
+      <li><a href="#">XXVème Sommet Afrique-France (participante)</a></li>
+    </ul>
+  
+  </div>
+</div>
