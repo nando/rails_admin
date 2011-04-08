@@ -9,7 +9,7 @@ module RailsAdmin
     helper_method :_current_user
 
     def get_model
-      model_name = to_model_name(params[:model_name])
+      model_name = to_model_name(params[:model_name] || params[:controller])
       @abstract_model = RailsAdmin::AbstractModel.new(model_name)
       @model_config = RailsAdmin.config(@abstract_model)
       not_found if @model_config.excluded?
@@ -22,7 +22,7 @@ module RailsAdmin
     end
 
     def get_object
-      @object = @abstract_model.get(params[:id])
+      @object = @abstract_model.get(params[:id]) || @abstract_model.model.find(params[:id])
       not_found unless @object
     end
 

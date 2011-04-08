@@ -97,6 +97,10 @@ module RailsAdmin
           bindings[:view].render :partial => partial.to_s, :locals => {:field => self}
         end
 
+        register_instance_option(:render_show) do
+          bindings[:view].render :partial => "main/show_#{partial}", :locals => {:field => self}
+        end
+
         # Accessor for whether this is field is mandatory.  This is
         # based on two factors: whether the field is nullable at the
         # database level, and whether it has an ActiveRecord validation
