@@ -23,6 +23,12 @@ module RailsAdmin
 
     def get_object
       @object = @abstract_model.get(params[:id]) || @abstract_model.model.find(params[:id])
+      if params[:locale] && (@object.locale != params[:locale])
+        @object = @object.get_locale(params[:locale]) || @object.create_locale(params[:locale])
+      end
+      I18n.locale = @object.locale
+      @master = @object.master
+      @localized_object = Gloobal::LocalizedEntity.new(@object)
       not_found unless @object
     end
 
