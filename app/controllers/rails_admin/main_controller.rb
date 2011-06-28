@@ -44,7 +44,7 @@ module RailsAdmin
       @object = @abstract_model.new
       @page_name = t("admin.actions.create").capitalize + " " + @model_config.create.label.downcase
       @page_type = @abstract_model.pretty_name.downcase
-      render :layout => 'rails_admin/form'
+      render :layout => params[:embedded_for] ? false : 'rails_admin/form'
     end
 
     def create
@@ -66,7 +66,11 @@ module RailsAdmin
     def edit
       @page_name = t("admin.actions.update").capitalize + " " + @model_config.update.label.downcase
       @page_type = @abstract_model.pretty_name.downcase
-      render :layout => 'rails_admin/form'
+      render :layout => params[:embedded_for] ? false : 'rails_admin/form'
+    end
+
+    def show
+      render :layout => params[:embedded_for] ? false : 'application'
     end
 
     def update
@@ -221,14 +225,14 @@ module RailsAdmin
       elsif params[:_view_index]
         redirect_to rails_admin_list_path(:model_name => param)
       else
-        redirect_to rails_admin_show_path(:model_name => param, :id => @object.id)
+        redirect_to rails_admin_show_path(:model_name => param, :id => @object.id, :embedded_for => params[:embedded_for])
       end
     end
 
     def render_error whereto = :new
       action = params[:action]
       flash.now[:error] = t("admin.flash.error", :name => @model_config.update.label, :action => t("admin.actions.#{action}d"))
-      render whereto, :layout => 'rails_admin/form'
+      render whereto, :layout => params[:embedded_for] ? false : 'rails_admin/form'
     end
 
     def check_for_cancel
