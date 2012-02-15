@@ -10,7 +10,9 @@ module RailsAdmin
     end
 
     def index
-      @objects = @abstract_model.model.order('updated_at DESC').limit(10)
+      page = params[:page] || 0
+      per_page = params[:per_page] || 20
+      @objects = @abstract_model.model.order('updated_at DESC').offset(page*per_page).limit(per_page)
     end    
   end
 end
