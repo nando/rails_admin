@@ -12,4 +12,5 @@ module RailsAdmin
     def index
       @objects = @abstract_model.model.order('updated_at DESC').limit(10)
     end    
+  end
 end
