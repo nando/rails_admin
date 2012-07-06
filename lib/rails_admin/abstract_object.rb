@@ -10,7 +10,7 @@
     end
 
     def attributes=(attributes)
-      object.send :attributes=, attributes, false
+      object.send :attributes=, attributes #, false
     end
 
     def method_missing(name, *args, &block)

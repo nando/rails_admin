@@ -5,8 +5,13 @@ module RailsAdmin
     before_filter :_authenticate!
     before_filter :_authorize!
     before_filter :set_plugin_name
-
+    before_filter :prepend_views_path
+  
     helper_method :_current_user
+
+    def prepend_views_path
+      prepend_view_path "app/views/rails_admin"
+    end
 
     def get_model
       model_name = to_model_name(params[:model_name] || params[:controller])
