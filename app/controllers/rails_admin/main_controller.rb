@@ -56,6 +56,7 @@ module RailsAdmin
       @page_type = @abstract_model.pretty_name.downcase
 
       if @object.save
+        add_taxons_with_descriptions
         AbstractHistory.create_history_item("Created #{@model_config.list.with(:object => @object).object_label}", @object, @abstract_model, _current_user)
         redirect_to_on_success
       else
@@ -86,6 +87,7 @@ module RailsAdmin
       @object.associations = params[:associations]
 
       if @object.save
+        add_taxons_with_descriptions
         AbstractHistory.create_update_history @abstract_model, @object, @cached_assocations_hash, associations_hash, @modified_assoc, @old_object, _current_user
         redirect_to_on_success
       else
@@ -140,6 +142,21 @@ module RailsAdmin
     end
 
     private
+    def add_taxons_with_descriptions
+      (params[:assocs_with_descs]||[]).each do |name, descs_and_ids|
+        descs = descs_and_ids[:descriptions]
+        taxon_ids = descs_and_ids[:taxon_ids]
+        @object.send "#{name}=", []
+        taxon_ids.each_with_index do |tid, index|
+          if tid.present? and descs[index].present?
+            "#{@object.class.class_name}Taxon".constantize.create(
+              :taxon_id => tid,
+              :legal_instrument => @object,
+              :description => descs[index])
+          end
+        end
+      end
+    end
 
     def get_bulk_objects
       @bulk_ids = params[:bulk_ids]
