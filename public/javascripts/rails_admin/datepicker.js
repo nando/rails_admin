@@ -162,16 +162,14 @@ Control.DatePicker.prototype = {
       this.originalValue = this.element.value;
 
       // Find real page position
-      /*
-      var pos = this.element.cumulativeOffset();
-      if (!/MSIE 8/.test(navigator.userAgent)) {
+      var pos = Position.positionedOffset(this.element);
+      if (/Chrome/.test(navigator.userAgent)) {
+        var chrome_pos = this.element.cumulativeOffset();
         // IE seems to account for scrollTop in offsetTop already
         var scroll = this.scrollOffset(this.element);
-        pos[0] -= scroll[0] + document.body.scrollTop;
-        pos[1] -= scroll[1] + document.body.scrollLeft;
+        pos[1] = chrome_pos[1] - scroll[1] + document.body.scrollLeft;
       }
-      */
-      var pos = Position.positionedOffset(this.element);
+
       var dim = Element.getDimensions(this.element);
       var pickerTop = /MSIE/.test(navigator.userAgent) ? (pos[1] + dim.height) + 'px' : (pos[1] + dim.height - 1) + 'px';
       this.datepicker.element.style.position = 'absolute';
