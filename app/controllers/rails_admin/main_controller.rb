@@ -54,9 +54,8 @@ module RailsAdmin
       @object.associations = params[:associations]
       @page_name = t("admin.actions.create").capitalize + " " + @model_config.create.label.downcase
       @page_type = @abstract_model.pretty_name.downcase
-
       if @object.save
-        add_taxons_with_descriptions
+        save_complex_assocs
         AbstractHistory.create_history_item("Created #{@model_config.list.with(:object => @object).object_label}", @object, @abstract_model, _current_user)
         redirect_to_on_success
       else
@@ -87,7 +86,7 @@ module RailsAdmin
       @object.associations = params[:associations]
 
       if @object.save
-        add_taxons_with_descriptions
+        save_complex_assocs
         AbstractHistory.create_update_history @abstract_model, @object, @cached_assocations_hash, associations_hash, @modified_assoc, @old_object, _current_user
         redirect_to_on_success
       else
@@ -142,7 +141,11 @@ module RailsAdmin
     end
 
     private
-    def add_taxons_with_descriptions
+    def save_complex_assocs
+      save_assocs_with_descriptions
+      save_assocs_with_years
+    end
+    def save_assocs_with_descriptions
       (params[:assocs_with_descs]||[]).each do |name, descs_and_ids|
         descs = descs_and_ids[:descriptions]
         taxon_ids = descs_and_ids[:taxon_ids]
@@ -153,6 +156,19 @@ module RailsAdmin
               :taxon_id => tid,
               :legal_instrument => @object,
               :description => descs[index])
+          end
+        end
+      end
+    end
+    def save_assocs_with_years
+      (params[:assocs_with_years]||[]).each do |name, ids_and_years|
+        @object.send "#{name}=", []
+        ids_and_years.each do |assoc_id, year|
+          if year.present?
+            "#{@object.class.class_name}#{name.classify}".constantize.create(
+              name.singularize+'_id' => assoc_id,
+              @object.class.class_name.underscore => @object,
+              :date => Date.parse("1-7-#{year}"))
           end
         end
       end
