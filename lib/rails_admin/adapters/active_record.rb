@@ -6,7 +6,8 @@ module RailsAdmin
   module Adapters
     module ActiveRecord
       def get(id)
-        if object = model.find_by_id(id)
+        if integer_id = (Integer(id) rescue nil)
+           object = model.find_by_id(integer_id)
           RailsAdmin::AbstractObject.new object
         else
           nil
