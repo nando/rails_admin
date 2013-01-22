@@ -154,7 +154,7 @@ module RailsAdmin
           if tid.present? and descs[index].present?
             "#{@object.class.class_name}Taxon".constantize.create(
               :taxon_id => tid,
-              :legal_instrument => @object,
+              @object.class.class_name.underscore => @object,
               :description => descs[index])
           end
         end
