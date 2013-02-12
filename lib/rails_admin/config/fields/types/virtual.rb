@@ -14,6 +14,15 @@ module RailsAdmin
           @column_width = 180
           @sortable = false
 
+          # CKEditor is disabled by default
+          register_instance_option(:ckeditor) do
+            false 
+          end
+
+          register_instance_option(:ckeditor_config_js) do
+            "/javascripts/ckeditor/config.js"
+          end
+
           # Accessor for field's label.
           register_instance_option(:label) do
             name.to_s.humanize
