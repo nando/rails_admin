@@ -258,7 +258,9 @@ module RailsAdmin
       elsif params[:_view_index]
         redirect_to rails_admin_list_path(:model_name => param)
       else
-        redirect_to rails_admin_show_path(:model_name => param, :id => @object.id, :embedded_for => params[:embedded_for])
+        redirect_to rails_admin_show_path(:model_name => param,
+          :id => @object.get_locale(params[:return_to_locale] || @object.locale).id,
+          :embedded_for => params[:embedded_for])
       end
     end
 
