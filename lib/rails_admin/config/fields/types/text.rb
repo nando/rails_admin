@@ -11,9 +11,9 @@ module RailsAdmin
           @column_width = 250
           @searchable = true
 
-          # CKEditor is disabled by default
+          # CKEditor is enabled by default
           register_instance_option(:ckeditor) do
-            false 
+            true
           end
 
           # If you want to have a different toolbar configuration for CKEditor

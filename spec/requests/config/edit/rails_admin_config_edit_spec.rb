@@ -383,9 +383,9 @@ describe "RailsAdmin Config DSL Edit Section" do
   end
 
   describe "CKEditor Support" do
-    it "should start with CKEditor disabled" do
+    it "should start with CKEditor enabled" do
        field = RailsAdmin::config("Draft").edit.fields.find{|f| f.name == :notes}
-       field.ckeditor.should be false
+       field.ckeditor.should be true
     end
 
     it "should add Javascript to enable CKEditor" do
