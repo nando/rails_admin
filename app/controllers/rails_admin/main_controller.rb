@@ -79,8 +79,8 @@ module RailsAdmin
 
       @page_name = t("admin.actions.update").capitalize + " " + @model_config.update.label.downcase
       @page_type = @abstract_model.pretty_name.downcase
-
-      @old_object = @object.clone
+      
+      @old_object = @object.dup
 
       @object.attributes = @attributes
       @object.associations = params[:associations]
